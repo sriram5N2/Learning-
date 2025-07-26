@@ -1,14 +1,16 @@
 const express=require('express');
 
 const mongoose=require('mongoose');
-const Employee=require('./models/Employee')
-const employeeRoutes=require('./routes/employeeRoutes')
+const Employee=require('./models/Employee');
+const employeeRoutes=require('./routes/employeeRoutes');
+
+const ejs=require('ejs');
 const app=express();
 
 const PORT=3000;
 
 app.use(express.json());
-
+app.set('view engine','ejs');
 
 mongoose.connect("mongodb+srv://sriramt234:sriram1234@cluster0.ezqbeb2.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
 .then(()=>{
@@ -24,7 +26,19 @@ mongoose.connect("mongodb+srv://sriramt234:sriram1234@cluster0.ezqbeb2.mongodb.n
   // For mounting Purpose
 app.use('/employees',employeeRoutes)
 
+app.get('/signup',(req,res)=>{
+  res.render('signup',{title:"SignupPage"});
+})
 
+app.get('/login',(req,res)=>{
+  res.render('login',{title:"LoginPage"});
+})
+
+app.get('/homepage',(req,res)=>{
+  res.render('homepage',{title:"HomePage"});
+})
+
+//Just for checking the server is working or not 
 app.get('/apple',(req,res)=>{
   console.log('apple url hitted');
   res.send("Apple")
