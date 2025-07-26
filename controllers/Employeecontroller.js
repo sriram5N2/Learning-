@@ -1,3 +1,4 @@
+const { message } = require('statuses');
 const Employee=require('../models/Employee');
 
 
@@ -21,4 +22,16 @@ const CreateEmployee = async(req,res)=>{
     }
 }
 
-module.exports={CreateEmployee}
+const GetallEmployees=async(req,res)=>{
+    try{
+        const employees=await Employee.find();
+        res.status(201).json(employees);
+    }
+    catch(error)
+    {
+        res.status(501).json({message:"Unable to Fetch all employees"});
+    }
+}
+
+
+module.exports={CreateEmployee,GetallEmployees}

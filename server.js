@@ -21,12 +21,16 @@ mongoose.connect("mongodb+srv://sriramt234:sriram1234@cluster0.ezqbeb2.mongodb.n
     console.log(`🚀 Server is running on port ${PORT}`);
   });
 
+  // For mounting Purpose
 app.use('/employees',employeeRoutes)
+
 
 app.get('/apple',(req,res)=>{
   console.log('apple url hitted');
   res.send("Apple")
 })
+
+// Created for checking whether the server is working or not 
 app.post("/emp",async(req,res)=>{
   try{
    const {name,email,phone,city}=req.body;

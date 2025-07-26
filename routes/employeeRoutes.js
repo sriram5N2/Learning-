@@ -5,6 +5,7 @@ const EmployeeController=require('../controllers/Employeecontroller');
 
 router.post('/add-emp',EmployeeController.CreateEmployee)
 
+router.get('/all-emp',EmployeeController.GetallEmployees)
 
 
 module.exports=router;
