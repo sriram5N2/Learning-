@@ -1,10 +1,21 @@
 const { message } = require('statuses');
 const Employee=require('../models/Employee');
 
-
+// creating 
 const CreateEmployee = async(req,res)=>{
     try{
                 const {name,email,phone,city}=req.body
+                if(await Employee.findOne({name:name,
+                    email:email,
+                    phone:phone,
+                    city:city
+                }))
+                {
+                    console.log("You have already have an account Sir")
+                    console.log(Employee.findOne({name:name}));
+                    return res.status(501).json({message:"User is Already Existing"});
+                    
+                }
                 const employee=new Employee({
                     name,
                     email,
@@ -13,7 +24,7 @@ const CreateEmployee = async(req,res)=>{
                 })
                 await employee.save();
                 console.log("Employee Created SuccessFully")
-                res.status(201).json({"message":"Employee Created succesfully"})
+                return res.status(201).json({"message":"Employee Created succesfully"})
     }
     catch(error)
     {
@@ -32,6 +43,8 @@ const GetallEmployees=async(req,res)=>{
         res.status(501).json({message:"Unable to Fetch all employees"});
     }
 }
+
+
 
 
 module.exports={CreateEmployee,GetallEmployees}
