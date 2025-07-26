@@ -1,7 +1,7 @@
 {
   "name": "learning-",
   "version": "1.0.0",
-  "description": "for learning Backend",
+  "description": "learning backend",
   "main": "server.js",
   "dependencies": {
     "accepts": "^2.0.0",
@@ -113,12 +113,14 @@
     "whatwg-url": "^14.2.0",
     "wrappy": "^1.0.2"
   },
-  "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "nodemon server.js",
     "start": "nodemon server.js"
   },
-  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "Learning-"
+  },
   "author": "",
   "license": "ISC"
 }

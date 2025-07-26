@@ -1,29 +1,53 @@
 const express=require('express');
-const PORT=3000;
 
-const {MongoClient}=require('mongodb');
+const mongoose=require('mongoose');
+const Employee=require('./models/Employee')
 const employeeRoutes=require('./routes/employeeRoutes')
 const app=express();
+
+const PORT=3000;
 
 app.use(express.json());
 
 
-MongoClient.connect("mongodb+srv://sriramt234:sriram1234@cluster0.ezqbeb2.mongodb.net/?retryWrites=true&w=majority")
+mongoose.connect("mongodb+srv://sriramt234:sriram1234@cluster0.ezqbeb2.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
 .then(()=>{
     console.log('Mongodb connected succesfully')
-
-
-
-
-
 }).catch((e)=>{
   console.log('Database Not Connected',e)
 })
 
-  // Mount routes AFTER DB is connected
-  app.use('/employees', employeeRoutes);
-
-  // Start server AFTER successful DB connection
   app.listen(PORT, () => {
     console.log(`🚀 Server is running on port ${PORT}`);
   });
+
+app.use('/employees',employeeRoutes)
+
+app.get('/apple',(req,res)=>{
+  console.log('apple url hitted');
+  res.send("Apple")
+})
+app.post("/emp",async(req,res)=>{
+  try{
+   const {name,email,phone,city}=req.body;
+   const employee=new Employee({
+    name,
+    email,
+    phone,
+    city
+   })
+   await employee.save();
+   console.log("Happy Happy Happy")
+   res.status(201).send({"message":"New Employee created"});
+  }
+  catch(err)
+  {
+    console.log(err);
+  res.status(500).send({"message":"Server Error"});
+  }
+
+})
+
+
+
+
