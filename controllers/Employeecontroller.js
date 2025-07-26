@@ -13,19 +13,20 @@ const CreateEmployee = async(req,res)=>{
                 }))
                 {
                     console.log("You have already have an account Sir")
-                    console.log(Employee.findOne({name:name}));
+                   // console.log(Employee.findOne({name:name}));
                     return res.status(501).json({message:"User is Already Existing"});
                     
                 }
-                const employee=new Employee({
+                const employee=await Employee.create({
                     name,
                     email,
                     phone,
                     city
                 })
-                await employee.save();
+               
                 console.log("Employee Created SuccessFully")
-                return res.status(201).json({"message":"Employee Created succesfully"})
+                return res.status(201).json({message:"Employee Created SuccesFully",
+                    "employee-details":employee})
     }
     catch(error)
     {
