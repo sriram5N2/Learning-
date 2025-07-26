@@ -1,7 +1,8 @@
+
 const { message } = require('statuses');
 const Employee=require('../models/Employee');
 
-// creating 
+// Creating the Employee Record
 const CreateEmployee = async(req,res)=>{
     try{
                 const {name,email,phone,city}=req.body
@@ -33,6 +34,7 @@ const CreateEmployee = async(req,res)=>{
     }
 }
 
+// Read all employee Records
 const GetallEmployees=async(req,res)=>{
     try{
         const employees=await Employee.find();
@@ -44,7 +46,47 @@ const GetallEmployees=async(req,res)=>{
     }
 }
 
+// update employee record 
+
+const UpdateEmployee=async(req,res)=>{
+    try{
+    const {id}=req.params 
+    const updates=req.body 
+    const updatedEmployee=await Employee.findByIdAndUpdate(id,updates);
+    if(!updatedEmployee){
+        console.log("Employee Not Found");
+     return res.status(501).json({message:"Employee Not Found"});
+    }
+    console.log("Employee Updated Succesfully")
+    return res.status(201).json({message:"Employee Updated Succesfully"});
+}
+    catch(error)
+    {
+       console.log("There is an Error in the Updated Employee Controller");
+       res.status(501).json({message:"Server Error"});
+    }
+}
+
+// Deleting the Employee Record 
+
+const DeleteEmployee=async (req,res) => {
+    try{
+        const {id}=req.params;
+        const deletedEmployee=await Employee.findByIdAndDelete(id);// This method will expect a string not an object
+        if(deletedEmployee){
+            console.log("Employee Deleted SuccesFully");
+            return res.status(201).json({message:"Employee Deleted SuccesFully"});
+        }
+        return res.status(501).json({message:"Employee Not found for deletion"});
+    }
+    catch(error)
+    {
+        console.log('The Error is from DeleteEmployee Controller',error);
+        res.status(501).json({message:"Server Error"});
+
+    }
+}
 
 
 
-module.exports={CreateEmployee,GetallEmployees}
+module.exports={CreateEmployee,GetallEmployees,UpdateEmployee,DeleteEmployee}
