@@ -1,4 +1,5 @@
 
+const { message } = require('statuses');
 const User=require('../models/User')
 const bcrypt=require('bcryptjs')
 
@@ -26,9 +27,8 @@ const CreateUser=async(req,res)=>{
             email: newUser.email
         };
     if(newUser)
-     return res.redirect('/login');
-    else
-    return res.redirect('/signup');
+      res.redirect('/login');
+    
 }
 
     catch(error)
@@ -40,17 +40,22 @@ const CreateUser=async(req,res)=>{
 
 const loginUser=async(req,res)=>{
     const {email,password}=req.body 
-      console.log(email,password);
+    
     try{
    const exsitingUSer=await User.findOne({
-    email:email,
-    password:password
+    email:email
    })
-   console.log(exsitingUSer);
-   if(exsitingUSer)
-    return res.redirect('/homepage');
+  // console.log(exsitingUSer);
+   
+   if(!exsitingUSer)
+    return  res.redirect('/signup')
+   console.log({exsitingUSer});
+const check=await bcrypt.compare(password,exsitingUSer.password);
+console.log(check);
+  if(check)
+     res.redirect('/homepage');
 else
-    return res.redirect('/signup')
+    return res.status(401).json({message:"Enter correct Password"});
     }
     catch(err)
     {
