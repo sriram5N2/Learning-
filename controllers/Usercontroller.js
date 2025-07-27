@@ -40,18 +40,24 @@ const loginUser=async(req,res)=>{
     const {email,password}=req.body 
     
     try{
-   const exsitingUSer=await User.findOne({
+   const exsitingUser=await User.findOne({
     email:email
    })
   // console.log(exsitingUSer);
    
-   if(!exsitingUSer)
+   if(!exsitingUser)
     return  res.redirect('/signup')
    //console.log({exsitingUSer});
-const check=await bcrypt.compare(password,exsitingUSer.password);// compare method checks the entered password with the already hashed password
+const check=await bcrypt.compare(password,exsitingUser.password);// compare method checks the entered password with the already hashed password
 //console.log(check);
-  if(check)
+  if(check){
+       req.session.user = {
+            id: exsitingUser._id,
+            name: exsitingUser.username,
+            email: exsitingUser.email
+        };
      res.redirect('/homepage');
+  }
 else
     return res.status(401).json({message:"Enter correct Password"});
     }

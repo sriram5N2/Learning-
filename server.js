@@ -51,7 +51,14 @@ app.get('/login',(req,res)=>{
   res.render('login',{title:"LoginPage"});
 })
 
-app.get('/homepage',(req,res)=>{
+const middleware=(req,res,next)=>{
+  if(req.session.cookie.name)
+    next();
+  else{
+    console.log('Unauthorised Access');
+    res.redirect('/login');}
+}
+app.get('/homepage',middleware,(req,res)=>{
   res.render('homepage',{title:"HomePage"});
 })
 
