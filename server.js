@@ -8,6 +8,8 @@ const ejs=require('ejs');
 const User=require('./models/User');
 const Usercontroller=require('./controllers/Usercontroller')
 
+const session=require('express-session');
+const Mongostore=require('connect-mongodb-session')(session);
 const app=express();
 
 const PORT=3000;
@@ -23,7 +25,18 @@ mongoose.connect("mongodb+srv://sriramt234:sriram1234@cluster0.ezqbeb2.mongodb.n
 })
 
 
-
+app.use(session({
+  secret:"My secret Key",
+  resave:false,
+  saveUninitialized:false,
+  store:new Mongostore({
+    uri:"mongodb+srv://sriramt234:sriram1234@cluster0.ezqbeb2.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
+    collection:'mysessions'
+  }),
+    cookie: {
+        maxAge: 1000 * 60 * 60, // 1 hour
+    }
+}));
 
 app.post('/signup',Usercontroller.CreateUser);
 app.post('/login',Usercontroller.loginUser)

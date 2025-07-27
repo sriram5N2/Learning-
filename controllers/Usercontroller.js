@@ -1,6 +1,6 @@
 
 const User=require('../models/User')
-
+const bcrypt=require('bcryptjs')
 
 const CreateUser=async(req,res)=>{
     const {username,email,password}=req.body ;
@@ -14,11 +14,17 @@ const CreateUser=async(req,res)=>{
          {
             return res.status(404).json({error:"User already existing"});
          }
+         const hashedPassword=await bcrypt.hash(password,10);
     const newUser=await User.create({
         username:username,
         email:email,
-        password:password
+        password:hashedPassword
     })
+      req.session.user = {
+            id: newUser._id,
+            name: newUser.username,
+            email: newUser.email
+        };
     if(newUser)
      return res.redirect('/login');
     else
