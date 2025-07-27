@@ -32,4 +32,24 @@ const CreateUser=async(req,res)=>{
     }
 }
 
-module.exports={CreateUser};
+const loginUser=async(req,res)=>{
+    const {email,password}=req.body 
+      console.log(email,password);
+    try{
+   const exsitingUSer=await User.findOne({
+    email:email,
+    password:password
+   })
+   console.log(exsitingUSer);
+   if(exsitingUSer)
+    return res.redirect('/homepage');
+else
+    return res.redirect('/signup')
+    }
+    catch(err)
+    {
+     return res.status(505).json({message:"Server Error"})
+    }
+}
+
+module.exports={CreateUser,loginUser};

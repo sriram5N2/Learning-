@@ -22,16 +22,16 @@ mongoose.connect("mongodb+srv://sriramt234:sriram1234@cluster0.ezqbeb2.mongodb.n
   console.log('Database Not Connected',e)
 })
 
-  
-  // For mounting Purpose
 
 
+
+app.post('/signup',Usercontroller.CreateUser);
+app.post('/login',Usercontroller.loginUser)
 
 app.get('/signup',(req,res)=>{
   res.render('signup',{title:"SignupPage"});
 })
 
-app.post('/signup',Usercontroller.CreateUser)
 
 app.get('/login',(req,res)=>{
   res.render('login',{title:"LoginPage"});
@@ -47,6 +47,8 @@ app.get('/apple',(req,res)=>{
   res.send("Apple")
 })
 
+  
+  // For mounting Purpose
 app.use('/employees',employeeRoutes)
 
 app.listen(PORT, () => {
