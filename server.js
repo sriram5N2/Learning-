@@ -5,10 +5,13 @@ const Employee=require('./models/Employee');
 const employeeRoutes=require('./routes/employeeRoutes');
 
 const ejs=require('ejs');
+const User=require('./models/User');
+const Usercontroller=require('./controllers/Usercontroller')
+
 const app=express();
 
 const PORT=3000;
-
+app.use(express.urlencoded({extended:true}))
 app.use(express.json());
 app.set('view engine','ejs');
 
@@ -19,16 +22,16 @@ mongoose.connect("mongodb+srv://sriramt234:sriram1234@cluster0.ezqbeb2.mongodb.n
   console.log('Database Not Connected',e)
 })
 
-  app.listen(PORT, () => {
-    console.log(`🚀 Server is running on port ${PORT}`);
-  });
-
+  
   // For mounting Purpose
-app.use('/employees',employeeRoutes)
+
+
 
 app.get('/signup',(req,res)=>{
   res.render('signup',{title:"SignupPage"});
 })
+
+app.post('/signup',Usercontroller.CreateUser)
 
 app.get('/login',(req,res)=>{
   res.render('login',{title:"LoginPage"});
@@ -43,6 +46,12 @@ app.get('/apple',(req,res)=>{
   console.log('apple url hitted');
   res.send("Apple")
 })
+
+app.use('/employees',employeeRoutes)
+
+app.listen(PORT, () => {
+    console.log(`🚀 Server is running on port ${PORT}`);
+  });
 
 // Created for checking whether the server is working or not 
 app.post("/emp",async(req,res)=>{
