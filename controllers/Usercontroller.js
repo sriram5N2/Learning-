@@ -1,5 +1,3 @@
-
-const { message } = require('statuses');
 const User=require('../models/User')
 const bcrypt=require('bcryptjs')
 
@@ -49,9 +47,9 @@ const loginUser=async(req,res)=>{
    
    if(!exsitingUSer)
     return  res.redirect('/signup')
-   console.log({exsitingUSer});
-const check=await bcrypt.compare(password,exsitingUSer.password);
-console.log(check);
+   //console.log({exsitingUSer});
+const check=await bcrypt.compare(password,exsitingUSer.password);// compare method checks the entered password with the already hashed password
+//console.log(check);
   if(check)
      res.redirect('/homepage');
 else
@@ -63,4 +61,12 @@ else
     }
 }
 
-module.exports={CreateUser,loginUser};
+const logOutUser=(req,res)=>{
+    req.session.destroy((err)=>{
+        if(err)
+            throw err
+        res.redirect('/login');
+    })
+}
+
+module.exports={CreateUser,loginUser,logOutUser};

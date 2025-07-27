@@ -40,6 +40,7 @@ app.use(session({
 
 app.post('/signup',Usercontroller.CreateUser);
 app.post('/login',Usercontroller.loginUser)
+app.post('/logout',Usercontroller.logOutUser)
 
 app.get('/signup',(req,res)=>{
   res.render('signup',{title:"SignupPage"});
