@@ -6,9 +6,7 @@ const CreateUser=async(req,res)=>{
     try{
          // console.log("FORM DATA:", req.body);
          if(await User.findOne({
-            username:username,
-            email:email,
-            password:password
+            username:username
          }))
          {
             return res.status(404).json({error:"User already existing"});
