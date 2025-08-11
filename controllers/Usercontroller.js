@@ -17,7 +17,7 @@ const CreateUser=async(req,res)=>{
         email:email,
         password:hashedPassword
     })
-      req.session.user = {
+      req.session.user = {      //req.session.(any variable name we can keep)
             id: newUser._id,
             name: newUser.username,
             email: newUser.email
