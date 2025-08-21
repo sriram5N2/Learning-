@@ -1,5 +1,5 @@
 const express=require('express');
-
+const cors=require('cors');
 const mongoose=require('mongoose');
 const Employee=require('./models/Employee');
 const employeeRoutes=require('./routes/employeeRoutes');
@@ -13,8 +13,10 @@ const Mongostore=require('connect-mongodb-session')(session);
 const app=express();
 
 const PORT=3000;
+
 app.use(express.urlencoded({extended:true}))
 app.use(express.json());
+app.use(cors({origin:'http://localhost:5173'}));
 app.set('view engine','ejs');
 
 mongoose.connect("mongodb+srv://sriramt234:sriram1234@cluster0.ezqbeb2.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
